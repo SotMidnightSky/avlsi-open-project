@@ -30,7 +30,7 @@ module basic
 
    quantizer quant (.in(phase), .out(trunc_phase));
  
-   phase_to_amp_conv #(PHASE_WIDTH, AMP_WIDTH) ptac (trunc_phase, amp);
+   phase_to_amp_conv #(DATA_WIDTH, AMP_WIDTH) ptac (trunc_phase, amp);
 
    assign output_data = amp;
    
