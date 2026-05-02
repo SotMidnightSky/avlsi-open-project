@@ -71,23 +71,23 @@ module quantizer
 
 endmodule // quantizer
 
-// use lookup table to convert the N bit phase to N bit amplitude
-module phase_to_amp_conv
-  #(
-    parameter DATA_WIDTH = 16,
-    parameter AMP_WIDTH = 16,
-    )
-  (
-   input [DATA_WIDTH-1:0] trunc_phase,
-   output [AMP_WIDTH-1:0] amp
-   );
-
-   reg [15:0] lut [0:65535];
-
-   initial begin
-      $readmemh("lut.mem", lut);
-   end
-
-   assign amp = lut[trunc_phase];
-
-endmodule // phase_to_amp_conv 
+// // use lookup table to convert the N bit phase to N bit amplitude
+// module phase_to_amp_conv
+//   #(
+//     parameter DATA_WIDTH = 16,
+//     parameter AMP_WIDTH = 16
+//     )
+//   (
+//    input [DATA_WIDTH-1:0] trunc_phase,
+//    output [AMP_WIDTH-1:0] amp
+//    );
+// 
+//    reg [15:0] lut [0:65535];
+// 
+//    initial begin
+//       $readmemh("lut.mem", lut);
+//    end
+// 
+//    assign amp = lut[trunc_phase];
+// 
+// endmodule // phase_to_amp_conv 

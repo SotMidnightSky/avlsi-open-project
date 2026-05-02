@@ -4,7 +4,7 @@ set_app_var target_library lsi_10k.db
 set_app_var symbol_library lsi_10k.sdb
 set_app_var synthetic_library dw_foundation.sldb
 set_app_var link_library "* $target_library $synthetic_library"
-set_app_var search_path [concat $search_path ./src]
+set_app_var search_path [concat $search_path ./verilog]
 set_app_var designer "Thomas Jenkins"
 # Define aliases
 alias h history alias rc "report_constraint -all_violators"
