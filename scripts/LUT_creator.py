@@ -22,7 +22,7 @@ with open(out_file, "w") as f:
     f.write(f"parameter DATA_WIDTH = 16,\n")
     f.write(f"parameter AMP_WIDTH = 16)\n")
     f.write(f"(input [DATA_WIDTH-1:0] trunc_phase,\n")
-    f.write(f"output [AMP_WIDTH-1:0] amp);\n")
+    f.write(f"output reg [AMP_WIDTH-1:0] amp);\n")
     f.write(f"always @(*) begin\n")
     f.write(f"  case (trunc_phase)\n")
     for adr, val in enumerate(sine_quantized):

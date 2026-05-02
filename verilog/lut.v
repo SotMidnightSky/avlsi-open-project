@@ -2,7 +2,7 @@ module phase_to_amp_conv #(
 parameter DATA_WIDTH = 16,
 parameter AMP_WIDTH = 16)
 (input [DATA_WIDTH-1:0] trunc_phase,
-output [AMP_WIDTH-1:0] amp);
+output reg [AMP_WIDTH-1:0] amp);
 always @(*) begin
   case (trunc_phase)
     16'd0: amp = 16'd32768;
