@@ -64,20 +64,21 @@ module quantizer
     )
    (
     input [INPUT_WIDTH-1:0] in,
-    output [OUTPUT_WIDTH0-1:0] out
+    output [OUTPUT_WIDTH-1:0] out
     );
 
-   assign out = in [TUNING_WIDTH-1:TUNING_WIDTH-DATA_WIDTH]; // truncate by width difference
+   assign out = in [INPUT_WIDTH-1:INPUT_WIDTH-OUTPUT_WIDTH]; // truncate by width difference
 
 endmodule // quantizer
 
 // use lookup table to convert the N bit phase to N bit amplitude
 module phase_to_amp_conv
   #(
-    parameter PHASE_WIDTH, AMP_WIDTH
+    parameter DATA_WIDTH = 16,
+    parameter AMP_WIDTH = 16,
     )
   (
-   input [PHASE_WIDTH-1:0] trunc_phase,
+   input [DATA_WIDTH-1:0] trunc_phase,
    output [AMP_WIDTH-1:0] amp,
    );
 
