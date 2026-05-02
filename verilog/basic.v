@@ -13,7 +13,7 @@ module basic
 
    wire [PHASE_WIDTH-1:0] phase;
    wire [DATA_WIDTH-1:0] trunc_phase;
-   wire [AMP_WIDTH-1:0]   amp;
+   reg [AMP_WIDTH-1:0]   amp;
 
    phase_accumulator
      #(
@@ -30,7 +30,7 @@ module basic
 
    quantizer quant (.in(phase), .out(trunc_phase));
  
-   phase_to_amp_conv #(DATA_WIDTH, AMP_WIDTH) ptac (trunc_phase, amp);
+   phase_to_amp_conv ptac (trunc_phase, amp);
 
    assign output_data = amp;
    
