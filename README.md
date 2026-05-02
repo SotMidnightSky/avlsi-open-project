@@ -27,9 +27,25 @@ tuning word to set the step value of the phase accumulator. This then steps the
 accumulated value up until hitting the cap, then circles back.
 
 ``` verilog
-module phase_accumulator #() ();
+module phase_accumulator
+  #(
+    parameter TUNING_WIDTH = 16,
+    parameter PHASE_WIDTH = 24
+    )
+  (
+   input                    clk, en,
+   input [TUNING_WIDTH-1:0] tuning_word,
+   output reg [PHASE_WIDTH-1:0]  phase
+   );
 
-endmodule
+   always @(posedge clk) begin
+     if (en == 1'b1)
+       begin
+          phase <= phase + {{(PHASE_WIDTH-TUNING_WIDTH){1'b0}}, tuning_word};
+       end
+   end
+
+endmodule // phase_accumulator
 ```
 
 ### Quantizer
@@ -39,7 +55,20 @@ significant bits in order to limit the non useful data for a smaller
 implementation. In this case it pairs it down from 24 bits to 16 bits.
 
 ``` verilog
-module quantizer #() ();
+module quantizer
+  #(
+    parameter INPUT_WIDTH = 24,
+    parameter OUTPUT_WIDTH = 16
+    )
+   (
+    input [INPUT_WIDTH-1:0] in,
+    output [OUTPUT_WIDTH-1:0] out
+    );
+
+   assign out = in [INPUT_WIDTH-1:INPUT_WIDTH-OUTPUT_WIDTH]; 
+   // truncate by width difference
+
+endmodule // quantizermodule quantizer #() ();
 
 endmodule
 ```
@@ -47,8 +76,18 @@ endmodule
 ### Phase to Amp Converter
 
 ``` verilog
-module phase_to_amp_conv #() ();
-
+module phase_to_amp_conv #(
+parameter DATA_WIDTH = 16,
+parameter AMP_WIDTH = 16)
+(input [DATA_WIDTH-1:0] trunc_phase,
+output reg [AMP_WIDTH-1:0] amp);
+always @(*) begin
+  case (trunc_phase)
+    16’d0: amp = 16’d32768;
+    …
+    default: amp = 16’h0;
+  endcase
+end
 endmodule
 ```
 
@@ -57,26 +96,55 @@ endmodule
 All together we build this out to create the pull outline.
 
 ``` verilog
-module basic #() ();
+module basic
+#(
+  parameter TUNING_WIDTH = 16,
+  parameter DATA_WIDTH = 16,
+  parameter PHASE_WIDTH = 24, // 24 - 48 bits
+  parameter AMP_WIDTH = 16
+  ) 
+ (
+  input                    clk, en,
+  input [TUNING_WIDTH-1:0] tuning_word,
+  output [DATA_WIDTH-1:0]  output_data
+  );
 
+ wire [PHASE_WIDTH-1:0] phase;
+ wire [DATA_WIDTH-1:0] trunc_phase;
+ reg [AMP_WIDTH-1:0]   amp;
+
+ phase_accumulator
+   pa
+ (
+  .clk(clk), 
+  .en(en), 
+  .tuning_word(tuning_word),
+  .phase(phase)
+  );
+
+ quantizer quant (.in(phase), .out(trunc_phase));
+
+ phase_to_amp_conv ptac (trunc_phase, amp);
+
+ assign output_data = amp;
 endmodule
 ```
 
-## Section 2
+## Quantization
 
 Filter frequency response of the original (un-quantized) filter and quantized
 filter, comments/thoughts about the quantization effect, and anything you did to
 deal with overflow
 
-## Section 3
+## Pipelined and parrallelized
 
-Architecture of your pipelined and/or parallelized FIR filter
-
-## Section 4
+## Hardware Implementation Results
 
 Detailed hardware implementation results (e.g., area, clock frequency, power
 estimation)
 
-## Section 5
+## Analysis
 
 Further analysis and conclusion
+
+## Conclusion
