@@ -1,4 +1,5 @@
-link uniquify
+link
+uniquify
 # specify clk
 create_clock clk -period 42 -waveform {0 20}
 set_clock_latency 0.3 clk
