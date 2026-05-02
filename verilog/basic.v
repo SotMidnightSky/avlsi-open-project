@@ -79,7 +79,7 @@ module phase_to_amp_conv
     )
   (
    input [DATA_WIDTH-1:0] trunc_phase,
-   output [AMP_WIDTH-1:0] amp,
+   output [AMP_WIDTH-1:0] amp
    );
 
    reg [15:0] lut [0:65535];
