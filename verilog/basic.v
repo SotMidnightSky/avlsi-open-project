@@ -11,7 +11,7 @@ module basic
     output [DATA_WIDTH-1:0]  output_data
     );
 
-   reg [PHASE_WIDTH-1:0] phase;
+   wire [PHASE_WIDTH-1:0] phase;
    wire [DATA_WIDTH-1:0] trunc_phase;
    wire [AMP_WIDTH-1:0]   amp;
 
