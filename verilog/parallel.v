@@ -13,8 +13,10 @@ module parallel
 
    wire [PHASE_WIDTH-1:0] phase;
    wire [PHASE_WIDTH-1:0] delta;
+   wire [TUNING_WIDTH-1:0] tuning_word_triple;
 
    assign delta = {{(PHASE_WIDTH-TUNING_WIDTH){1'b0}}, tuning_word};
+   assign tuning_word_triple = tuning_word * 3;
 
    phase_accumulator
      #(
@@ -25,7 +27,7 @@ module parallel
    (
     .clk(clk), 
     .en(en), 
-    .tuning_word(3 * tuning_word),
+    .tuning_word(tuning_word_triple),
     .phase(phase)
     );
 
@@ -63,8 +65,6 @@ module phase_accumulator
    input [TUNING_WIDTH-1:0] tuning_word,
    output reg [PHASE_WIDTH-1:0]  phase
    );
-
-   reg [PHASE_WIDTH-1:0] phase_base;
 
    always @(posedge clk) begin
      if (en == 1'b1)
