@@ -29,6 +29,8 @@ module parallel
     .phase(phase)
     );
 
+   wire [PHASE_WIDTH-1:0] phase0, phase1, phase2;
+
    // split phase into three for parrelization
    assign phase0 = phase;
    assign phase1 = phase + delta;
@@ -46,7 +48,7 @@ module parallel
    phase_to_amp_conv ptac1 (trunc_phase1, amp1);
    phase_to_amp_conv ptac2 (trunc_phase2, amp2);
 
-   assign output_data = {amp0, amp1, amp2};
+   assign output_data = (amp0 << (AMP_WIDTH * 2)) + (amp1 << AMP_WIDTH) + amp2;
 
 endmodule // parallel
 
