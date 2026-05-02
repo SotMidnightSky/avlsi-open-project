@@ -61,7 +61,7 @@ module phase_accumulator
   (
    input                    clk, en,
    input [TUNING_WIDTH-1:0] tuning_word,
-   output reg [3:0] [PHASE_WIDTH-1:0]  phase
+   output reg [PHASE_WIDTH-1:0]  phase
    );
 
    reg [PHASE_WIDTH-1:0] phase_base;
