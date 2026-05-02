@@ -12,8 +12,7 @@ module parallel
     );
 
    wire [PHASE_WIDTH-1:0] phase;
-   wire [DATA_WIDTH-1:0] trunc_phase;
-   reg [AMP_WIDTH-1:0]   amp;
+   wire [PHASE_WIDTH-1:0] delta;
 
    assign delta = {{(PHASE_WIDTH-TUNING_WIDTH){1'b0}}, tuning_word};
 
@@ -41,7 +40,7 @@ module parallel
    quantizer q1 (.in(phase1), .out(trunc_phase1));
    quantizer q2 (.in(phase2), .out(trunc_phase2));
 
-   wire [AMP_WIDTH-1:0] amp0, amp1, amp2;
+   reg [AMP_WIDTH-1:0] amp0, amp1, amp2;
    
    phase_to_amp_conv ptac0 (trunc_phase0, amp0);
    phase_to_amp_conv ptac1 (trunc_phase1, amp1);
@@ -68,7 +67,7 @@ module phase_accumulator
    always @(posedge clk) begin
      if (en == 1'b1)
        begin
-          phase <= phase + tuning_word;
+          phase <= phase + {{(PHASE_WIDTH-TUNING_WIDTH){1'b0}}, tuning_word};
        end
    end
 
