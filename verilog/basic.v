@@ -88,6 +88,6 @@ module phase_to_amp_conv
       $readmemh("lut.mem", lut);
    end
 
-   assign amp = lut[phase_trunc];
+   assign amp = lut[trunc_phase];
 
 endmodule // phase_to_amp_conv 
