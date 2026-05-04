@@ -8,7 +8,7 @@ verilog and work through the optimization of it.
 
 ### Basic Verilog Structure
 
-[picture of basic outline]
+![Basic dds diagram](img/Basic_diagram.png)
 
 The basic process of a direct digital synthesizer is:
 
@@ -136,7 +136,12 @@ Filter frequency response of the original (un-quantized) filter and quantized
 filter, comments/thoughts about the quantization effect, and anything you did to
 deal with overflow
 
-## Pipelined and parrallelized
+## Parallelized
+
+![Parallel dds diagram](img/Parallel_diagram.png)
+
+In order to allow more throughput per clock cycle, we can implement a parallel
+structure as seen in the figure above.
 
 ## Hardware Implementation Results
 
@@ -144,7 +149,5 @@ Detailed hardware implementation results (e.g., area, clock frequency, power
 estimation)
 
 ## Analysis
-
-Further analysis and conclusion
 
 ## Conclusion
